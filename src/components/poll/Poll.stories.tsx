@@ -1,5 +1,15 @@
-import { storiesOf } from "@storybook/react-native";
+import { action } from "@storybook/addon-actions";
 import React from "react";
+import { View } from "react-native";
 import { Poll } from ".";
+import { storyOf } from "../../helpers/storyOf";
 
-storiesOf("Poll", module).add("default", () => <Poll />);
+storyOf("Poll").add("default", () => (
+  <View style={{ minWidth: 350, minHeight: 300 }}>
+    <Poll
+      pollId={32}
+      userId="STORYBOOK_USER"
+      onSubmitted={action("onSubmitted")}
+    />
+  </View>
+));
