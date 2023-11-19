@@ -1,12 +1,14 @@
 import styled from "@emotion/native";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { Text, TextSemiBold } from "../../_components/text";
+import { theme } from "../../themes/base";
 
 export const VoteText = styled(Text)`
   color: white;
   font-size: 16px;
 `;
 export const VoteButton = styled(TouchableOpacity)`
-  background-color: #3498db;
+  background-color: ${theme.colors.primary};
   padding: 10px;
   border-radius: 5px;
   align-items: center;
@@ -18,26 +20,25 @@ export const OptionLabel = styled(Text)`
   font-size: 16px;
 `;
 
-export const Tick = styled(View)`
+export const Tick = styled.View`
   width: 10px;
   height: 10px;
   background-color: white;
   border-radius: 5px;
 `;
 
-export const OptionWrapper = styled(View)`
+export const OptionWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   margin-bottom: 8px;
 `;
 
-export const PollName = styled(Text)`
+export const PollName = styled(TextSemiBold)`
   font-size: 18px;
-  font-weight: bold;
   margin-bottom: 8px;
 `;
 
-export const Wrapper = styled(View)`
+export const Wrapper = styled.View`
   padding: 16px;
   border-width: 1px;
   border-radius: 8px;

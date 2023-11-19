@@ -1,7 +1,7 @@
 import styled from "@emotion/native";
 import { PollzProvider, usePollz } from "pollz-react";
 import React, { PropsWithChildren } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "../_components/activity-indicator";
 
 const CenteredView = styled.View`
   flex: 1;

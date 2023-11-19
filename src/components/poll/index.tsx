@@ -1,6 +1,8 @@
 import { usePoll, usePollz } from "pollz-react";
 import React, { useState } from "react";
-import { ActivityIndicator, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { ActivityIndicator } from "../../_components/activity-indicator";
+import { theme } from "../../themes/base";
 import {
   NoPollWrapper,
   OptionLabel,
@@ -31,17 +33,16 @@ export const Poll: React.FC<Props> = ({ pollId, onSubmitted, userId }) => {
 
     try {
       setLoading(true);
+
       const votedPoll = await sdk.vote(
         pollId,
         selectedOption,
         userId,
         poll.pollType.id
       );
-      setLoading(false);
 
-      if (onSubmitted) {
-        onSubmitted(votedPoll);
-      }
+      setLoading(false);
+      onSubmitted?.(votedPoll);
     } catch (error) {
       console.error("Error submitting vote:", error);
       setLoading(false);
@@ -73,7 +74,9 @@ export const Poll: React.FC<Props> = ({ pollId, onSubmitted, userId }) => {
                 justifyContent: "center",
                 alignItems: "center",
               },
-              selectedOption === option.id && { backgroundColor: "#3498db" },
+              selectedOption === option.id && {
+                backgroundColor: theme.colors.primary,
+              },
             ]}
             onPress={() => setSelectedOption(option.id)}
           >
