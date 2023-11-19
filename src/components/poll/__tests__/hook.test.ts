@@ -74,7 +74,7 @@ describe("hook", () => {
     );
 
     await act(async () => {
-      await result.current.setSelectedOption(1);
+      await result.current.handleSelectOption(1);
     });
 
     await act(async () => {
@@ -115,7 +115,7 @@ describe("hook", () => {
     const selectedOption = 1;
 
     act(() => {
-      result.current.setSelectedOption(selectedOption);
+      result.current.handleSelectOption(selectedOption);
     });
 
     await act(async () => {
@@ -141,7 +141,7 @@ describe("hook", () => {
     const selectedOption = 1;
 
     act(() => {
-      result.current.setSelectedOption(selectedOption);
+      result.current.handleSelectOption(selectedOption);
     });
 
     expect(mockVote).not.toHaveBeenCalled();

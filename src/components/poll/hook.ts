@@ -86,7 +86,7 @@ export const hook = (
   return {
     poll,
     selectedOption,
-    setSelectedOption: handleSelectOption,
+    handleSelectOption,
     loading,
     voted,
     handleVote,

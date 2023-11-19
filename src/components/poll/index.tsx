@@ -31,7 +31,7 @@ export const Poll: React.FC<Props> = ({
   const {
     poll,
     selectedOption,
-    setSelectedOption,
+    handleSelectOption,
     loading,
     voted,
     handleVote,
@@ -57,19 +57,20 @@ export const Poll: React.FC<Props> = ({
         <Greetings greetingsText={greetingsText} />
       ) : (
         <>
-          {canAddOptions &&
-            NewOption({
-              newOption,
-              setNewOption,
-              addingOption,
-              handleAddOption,
-            })}
+          {canAddOptions && (
+            <NewOption
+              newOption={newOption}
+              setNewOption={setNewOption}
+              addingOption={addingOption}
+              handleAddOption={handleAddOption}
+            />
+          )}
           {poll.options.map((option) => (
             <OptionRow
               key={option.id}
               option={option}
               selectedOptionId={selectedOption}
-              setSelectedOption={setSelectedOption}
+              handleSelectOption={handleSelectOption}
             />
           ))}
 
