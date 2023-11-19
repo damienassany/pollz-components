@@ -47,8 +47,9 @@ export const Wrapper = styled.View`
   border-color: #ddd;
   margin-bottom: 16px;
   background-color: white;
-  flex: 1;
+  width: 100%;
   justify-content: space-between;
+  gap: 10px;
 `;
 
 export const NoPollWrapper = styled.View`
@@ -58,7 +59,8 @@ export const NoPollWrapper = styled.View`
   border-color: #ddd;
   margin-bottom: 16px;
   background-color: white;
-  flex: 1;
+  width: 100%;
+  min-height: 200px;
   align-items: center;
   justify-content: center;
 `;
@@ -70,6 +72,6 @@ export const VotedText = styled(Text)`
 export const VotedWrapper = styled(Animated.View)`
   align-items: center;
   justify-content: center;
-  flex: 1;
-  gap: 20px;
+  gap: 10px;
+  margin-vertical: 20px;
 `;

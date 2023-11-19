@@ -6,6 +6,7 @@ export const Row = styled.View`
   align-items: center;
   gap: 10px;
 `;
+
 export const RadioTouchable = styled.TouchableOpacity<{ active?: boolean }>`
   width: 20px;
   height: 20px;
@@ -16,4 +17,25 @@ export const RadioTouchable = styled.TouchableOpacity<{ active?: boolean }>`
   justify-content: center;
   align-items: center;
   ${({ active }) => active && `background-color: ${theme.colors.primary};`}
+`;
+
+export const AddOptionContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+export const AddOptionInput = styled.TextInput`
+  flex: 1;
+  height: 40px;
+  border-width: 1px;
+  border-radius: 5px;
+  margin-right: 8px;
+  padding: 8px;
+  border-color: #aaa;
+`;
+
+export const AddOptionButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
 `;

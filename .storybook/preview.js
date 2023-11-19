@@ -1,3 +1,6 @@
+import { withActions } from "@storybook/addon-actions";
+import { withKnobs } from "@storybook/addon-knobs";
+
 export const parameters = {
   controls: {
     matchers: {
@@ -6,3 +9,5 @@ export const parameters = {
     },
   },
 };
+
+export const decorators = [withKnobs, withActions];

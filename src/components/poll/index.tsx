@@ -2,6 +2,7 @@ import React from "react";
 import { ActivityIndicator } from "../../_components/activity-indicator";
 import { Footer } from "./components/footer";
 import { Greetings } from "./components/greetings";
+import { NewOption } from "./components/new-option";
 import { OptionRow } from "./components/option-row";
 import { hook } from "./hook";
 import { NoPollWrapper, PollName, Wrapper } from "./styles";
@@ -14,6 +15,7 @@ type Props = {
   withoutFeedback?: boolean;
   confirmText?: string;
   greetingsText?: string;
+  canAddOptions?: boolean;
 };
 
 export const Poll: React.FC<Props> = ({
@@ -24,6 +26,7 @@ export const Poll: React.FC<Props> = ({
   withoutFeedback = false,
   confirmText = "Vote",
   greetingsText = "Thanks for voting!",
+  canAddOptions = false,
 }) => {
   const {
     poll,
@@ -32,6 +35,10 @@ export const Poll: React.FC<Props> = ({
     loading,
     voted,
     handleVote,
+    handleAddOption,
+    newOption,
+    setNewOption,
+    addingOption,
   } = hook(pollId, userId, confirmToVote, withoutFeedback, onSubmitted);
 
   if (!poll) {
@@ -50,6 +57,13 @@ export const Poll: React.FC<Props> = ({
         <Greetings greetingsText={greetingsText} />
       ) : (
         <>
+          {canAddOptions &&
+            NewOption({
+              newOption,
+              setNewOption,
+              addingOption,
+              handleAddOption,
+            })}
           {poll.options.map((option) => (
             <OptionRow
               key={option.id}

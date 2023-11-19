@@ -29,12 +29,16 @@ const mockPoll = {
 };
 
 const mockVote = jest.fn().mockImplementation(() => Promise.resolve(mockPoll));
+const mockAddOption = jest
+  .fn()
+  .mockImplementation(() => Promise.resolve(mockPoll));
 const mockOnSubmitted = jest.fn();
 
 jest.mock("pollz-react", () => ({
   usePollz: () => ({
     sdk: {
       vote: mockVote,
+      addOption: mockAddOption,
     },
   }),
   usePoll: () => ({
@@ -151,5 +155,25 @@ describe("hook", () => {
     expect(result.current.loading).toBe(false);
     expect(mockOnSubmitted).toHaveBeenCalled();
     expect(result.current.voted).toBe(true);
+  });
+
+  it("should handle add option", async () => {
+    const { result } = renderHook(() =>
+      hook(pollId, userId, confirmToVote, withoutFeedback, mockOnSubmitted)
+    );
+
+    const newOption = "New option";
+
+    act(() => {
+      result.current.setNewOption(newOption);
+    });
+
+    await act(async () => {
+      await result.current.handleAddOption();
+    });
+
+    expect(mockAddOption).toHaveBeenCalledWith(pollId, newOption.trim());
+    expect(result.current.addingOption).toBe(false);
+    expect(result.current.newOption).toBe("");
   });
 });

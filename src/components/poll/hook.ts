@@ -10,8 +10,10 @@ export const hook = (
 ) => {
   const { sdk } = usePollz();
   const { poll } = usePoll(pollId, { listen: true });
+  const [newOption, setNewOption] = useState("");
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
+  const [addingOption, setAddingOption] = useState(false);
   const [voted, setVoted] = useState(false);
 
   const handleVote = async () => {
@@ -41,6 +43,26 @@ export const hook = (
     }
   };
 
+  const handleAddOption = () => {
+    // Add your logic to add a new option
+    if (newOption.trim() !== "") {
+      setAddingOption(true);
+      // Assuming there is a method in your SDK to add an option
+      sdk
+        .addOption(pollId, newOption.trim())
+        .then((updatedPoll) => {
+          // Assuming usePoll hook updates the poll details automatically
+          // If not, you might need to refetch the poll using usePoll
+          if (updatedPoll) {
+            setNewOption(""); // Clear the input field after adding the option
+          }
+        })
+        .finally(() => {
+          setAddingOption(false);
+        });
+    }
+  };
+
   useEffect(() => {
     if (confirmToVote) return;
 
@@ -56,5 +78,9 @@ export const hook = (
     loading,
     voted,
     handleVote,
+    handleAddOption,
+    newOption,
+    setNewOption,
+    addingOption,
   };
 };
