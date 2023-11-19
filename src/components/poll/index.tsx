@@ -1,53 +1,38 @@
-import { usePoll, usePollz } from "pollz-react";
-import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import React from "react";
 import { ActivityIndicator } from "../../_components/activity-indicator";
-import { theme } from "../../themes/base";
-import {
-  NoPollWrapper,
-  OptionLabel,
-  OptionWrapper,
-  PollName,
-  Tick,
-  VoteButton,
-  VoteText,
-  Wrapper,
-} from "./styles";
+import { Footer } from "./components/footer";
+import { Greetings } from "./components/greetings";
+import { OptionRow } from "./components/option-row";
+import { hook } from "./hook";
+import { NoPollWrapper, PollName, Wrapper } from "./styles";
 
 type Props = {
   pollId: number;
   onSubmitted?: (poll: any) => void;
   userId: string;
+  confirmToVote?: boolean;
+  withoutFeedback?: boolean;
+  confirmText?: string;
+  greetingsText?: string;
 };
 
-export const Poll: React.FC<Props> = ({ pollId, onSubmitted, userId }) => {
-  const { sdk } = usePollz();
-  const { poll } = usePoll(pollId, { listen: true });
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleVote = async () => {
-    if (!poll || !selectedOption) {
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      const votedPoll = await sdk.vote(
-        pollId,
-        selectedOption,
-        userId,
-        poll.pollType.id
-      );
-
-      setLoading(false);
-      onSubmitted?.(votedPoll);
-    } catch (error) {
-      console.error("Error submitting vote:", error);
-      setLoading(false);
-    }
-  };
+export const Poll: React.FC<Props> = ({
+  pollId,
+  onSubmitted,
+  userId,
+  confirmToVote = true,
+  withoutFeedback = false,
+  confirmText = "Vote",
+  greetingsText = "Thanks for voting!",
+}) => {
+  const {
+    poll,
+    selectedOption,
+    setSelectedOption,
+    loading,
+    voted,
+    handleVote,
+  } = hook(pollId, userId, confirmToVote, withoutFeedback, onSubmitted);
 
   if (!poll) {
     return (
@@ -60,36 +45,30 @@ export const Poll: React.FC<Props> = ({ pollId, onSubmitted, userId }) => {
   return (
     <Wrapper>
       <PollName>{poll.name}</PollName>
-      {poll.options.map((option) => (
-        <OptionWrapper key={option.id}>
-          <TouchableOpacity
-            style={[
-              {
-                width: 20,
-                height: 20,
-                marginRight: 8,
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: "#aaa",
-                justifyContent: "center",
-                alignItems: "center",
-              },
-              selectedOption === option.id && {
-                backgroundColor: theme.colors.primary,
-              },
-            ]}
-            onPress={() => setSelectedOption(option.id)}
-          >
-            {selectedOption === option.id && <Tick />}
-          </TouchableOpacity>
-          <OptionLabel>{option.label}</OptionLabel>
-        </OptionWrapper>
-      ))}
-      <VoteButton onPress={handleVote} disabled={!selectedOption || loading}>
-        <VoteText>
-          Vote {loading && <ActivityIndicator size={"small"} />}
-        </VoteText>
-      </VoteButton>
+
+      {voted ? (
+        <Greetings greetingsText={greetingsText} />
+      ) : (
+        <>
+          {poll.options.map((option) => (
+            <OptionRow
+              key={option.id}
+              option={option}
+              selectedOptionId={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+          ))}
+
+          {confirmToVote ? (
+            <Footer
+              handleVote={handleVote}
+              selectedOption={selectedOption}
+              loading={loading}
+              confirmText={confirmText}
+            />
+          ) : null}
+        </>
+      )}
     </Wrapper>
   );
 };

@@ -20,6 +20,8 @@ global.STORIES = [
 
 import "@storybook/addon-ondevice-controls/register";
 import "@storybook/addon-ondevice-actions/register";
+import "@storybook/addon-ondevice-notes/register";
+import "@storybook/addon-ondevice-knobs/register";
 
 import { argsEnhancers } from "@storybook/addon-actions/dist/modern/preset/addArgs";
 
@@ -47,7 +49,7 @@ try {
 
 const getStories = () => {
   return {
-    "./src/components/poll/Poll.stories.tsx": require("../src/components/poll/Poll.stories.tsx"),
+    "./src/components/poll/index.stories.tsx": require("../src/components/poll/index.stories.tsx"),
   };
 };
 

@@ -1,5 +1,6 @@
 import styled from "@emotion/native";
 import { TouchableOpacity } from "react-native";
+import Animated from "react-native-reanimated";
 import { Text, TextSemiBold } from "../../_components/text";
 import { theme } from "../../themes/base";
 
@@ -18,6 +19,7 @@ export const VoteButton = styled(TouchableOpacity)`
 
 export const OptionLabel = styled(Text)`
   font-size: 16px;
+  flex: 1;
 `;
 
 export const Tick = styled.View`
@@ -59,4 +61,15 @@ export const NoPollWrapper = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+`;
+
+export const VotedText = styled(Text)`
+  font-size: 20px;
+`;
+
+export const VotedWrapper = styled(Animated.View)`
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 20px;
 `;
