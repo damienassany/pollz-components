@@ -75,7 +75,7 @@ export const Poll: React.FC<Props> = ({
 
           {confirmToVote ? (
             <Footer
-              handleVote={handleVote}
+              handleVote={() => handleVote()}
               selectedOption={selectedOption}
               loading={loading}
               confirmText={confirmText}

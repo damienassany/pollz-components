@@ -1,5 +1,5 @@
 import { usePoll, usePollz } from "pollz-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const hook = (
   pollId: number,
@@ -16,8 +16,14 @@ export const hook = (
   const [addingOption, setAddingOption] = useState(false);
   const [voted, setVoted] = useState(false);
 
-  const handleVote = async () => {
-    if (!poll || !selectedOption) {
+  const initialSelectedOption = useMemo(() => {
+    return poll?.options.find((option) =>
+      option.voters.some((voter) => voter.userId === userId)
+    )?.id;
+  }, [poll, userId]);
+
+  const handleVote = async (optionId = selectedOption) => {
+    if (!poll || !optionId) {
       return;
     }
 
@@ -26,7 +32,7 @@ export const hook = (
 
       const votedPoll = await sdk.vote(
         pollId,
-        selectedOption,
+        optionId,
         userId,
         poll.pollType.id
       );
@@ -63,18 +69,24 @@ export const hook = (
     }
   };
 
-  useEffect(() => {
-    if (confirmToVote) return;
+  const handleSelectOption = (optionId: number) => {
+    setSelectedOption(optionId);
 
-    if (selectedOption) {
-      handleVote();
+    if (!confirmToVote) {
+      handleVote(optionId);
     }
-  }, [confirmToVote, selectedOption]);
+  };
+
+  useEffect(() => {
+    if (initialSelectedOption) {
+      setSelectedOption(initialSelectedOption);
+    }
+  }, [initialSelectedOption]);
 
   return {
     poll,
     selectedOption,
-    setSelectedOption,
+    setSelectedOption: handleSelectOption,
     loading,
     voted,
     handleVote,

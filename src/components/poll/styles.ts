@@ -1,5 +1,4 @@
 import styled from "@emotion/native";
-import { TouchableOpacity } from "react-native";
 import Animated from "react-native-reanimated";
 import { Text, TextSemiBold } from "../../_components/text";
 import { theme } from "../../themes/base";
@@ -8,7 +7,7 @@ export const VoteText = styled(Text)`
   color: white;
   font-size: 16px;
 `;
-export const VoteButton = styled(TouchableOpacity)`
+export const VoteButton = styled.Pressable`
   background-color: ${theme.colors.primary};
   padding: 10px;
   border-radius: 5px;
