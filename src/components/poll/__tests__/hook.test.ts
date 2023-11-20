@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-hooks";
-import { PollWithOptions } from "pollz-js";
+import { PollTypes, PollWithOptions } from "pollz-js";
 import { hook } from "../hook";
 
 const mockPoll = {
@@ -22,7 +22,7 @@ const mockPoll = {
     },
   ],
   pollType: {
-    id: 1,
+    id: PollTypes.SingleChoice,
     name: "Single choice",
   },
   totalVotes: 0,
@@ -43,7 +43,7 @@ jest.mock("pollz-react", () => ({
   }),
   usePoll: () => ({
     poll: mockPoll as PollWithOptions,
-    refecth: jest.fn(),
+    refetch: jest.fn(),
   }),
 }));
 
@@ -63,7 +63,7 @@ describe("hook", () => {
     );
 
     expect(result.current.poll).toEqual(mockPoll);
-    expect(result.current.selectedOption).toBeNull();
+    expect(result.current.selectedOptionIds).toHaveLength(0);
     expect(result.current.loading).toBe(false);
     expect(result.current.voted).toBe(false);
   });
@@ -89,7 +89,7 @@ describe("hook", () => {
     );
     expect(result.current.loading).toBe(false);
     expect(mockOnSubmitted).toHaveBeenCalledWith(expect.any(Object));
-    expect(result.current.voted).toBe(!withoutFeedback);
+    expect(result.current.voted).toBe(true);
   });
 
   it("should not handle vote if poll or selected option is missing", async () => {
@@ -108,7 +108,7 @@ describe("hook", () => {
   });
 
   it("should handle vote when confirmToVote is false and selected option is set", async () => {
-    const { result, waitForNextUpdate } = renderHook(() =>
+    const { result } = renderHook(() =>
       hook(pollId, userId, false, withoutFeedback, mockOnSubmitted)
     );
 

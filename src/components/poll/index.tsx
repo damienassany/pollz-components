@@ -30,7 +30,7 @@ export const Poll: React.FC<Props> = ({
 }) => {
   const {
     poll,
-    selectedOption,
+    selectedOptionIds,
     handleSelectOption,
     loading,
     voted,
@@ -67,9 +67,10 @@ export const Poll: React.FC<Props> = ({
           )}
           {poll.options.map((option) => (
             <OptionRow
+              pollTypeId={poll.pollType.id}
               key={option.id}
               option={option}
-              selectedOptionId={selectedOption}
+              selectedOptionIds={selectedOptionIds}
               handleSelectOption={handleSelectOption}
             />
           ))}
@@ -77,7 +78,7 @@ export const Poll: React.FC<Props> = ({
           {confirmToVote ? (
             <Footer
               handleVote={() => handleVote()}
-              selectedOption={selectedOption}
+              selectedOptionIds={selectedOptionIds}
               loading={loading}
               confirmText={confirmText}
             />

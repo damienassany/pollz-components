@@ -7,7 +7,7 @@ export const Row = styled.View`
   gap: 10px;
 `;
 
-export const RadioTouchable = styled.TouchableOpacity<{ active?: boolean }>`
+export const Circle = styled.TouchableOpacity<{ active?: boolean }>`
   width: 20px;
   height: 20px;
   margin-right: 8px;

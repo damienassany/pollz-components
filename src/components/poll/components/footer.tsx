@@ -5,19 +5,22 @@ import { Row } from "./styles";
 
 type Props = {
   handleVote: () => Promise<void>;
-  selectedOption: number | null;
+  selectedOptionIds: number[];
   loading: boolean;
   confirmText: string;
 };
 
 export const Footer: React.FC<Props> = ({
   handleVote,
-  selectedOption,
+  selectedOptionIds,
   loading,
   confirmText,
 }) => {
   return (
-    <VoteButton onPress={handleVote} disabled={!selectedOption || loading}>
+    <VoteButton
+      onPress={handleVote}
+      disabled={!selectedOptionIds.length || loading}
+    >
       <Row>
         <VoteText>{confirmText}</VoteText>
         {loading && <ActivityIndicator color={"white"} size={"small"} />}

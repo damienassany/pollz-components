@@ -1,3 +1,4 @@
+import { PollTypes } from "pollz-js";
 import { usePoll, usePollz } from "pollz-react";
 import { useEffect, useMemo, useState } from "react";
 
@@ -11,34 +12,37 @@ export const hook = (
   const { sdk } = usePollz();
   const { poll } = usePoll(pollId, { listen: true });
   const [newOption, setNewOption] = useState("");
-  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const [selectedOptionIds, setSelectedOptionIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [addingOption, setAddingOption] = useState(false);
   const [voted, setVoted] = useState(false);
 
-  const initialSelectedOption = useMemo(() => {
-    return poll?.options.find((option) =>
-      option.voters.some((voter) => voter.userId === userId)
-    )?.id;
+  const initialSelectedOptionIds = useMemo(() => {
+    return (
+      poll?.options
+        .filter((option) =>
+          option.voters.some((voter) => voter.userId === userId)
+        )
+        .map((option) => option.id) || []
+    );
   }, [poll, userId]);
 
-  const handleVote = async (optionId = selectedOption) => {
-    if (!poll || !optionId) {
+  const handleVote = async (optionIds = selectedOptionIds) => {
+    if (!poll || !optionIds.length) {
       return;
     }
 
     try {
       setLoading(true);
 
-      const votedPoll = await sdk.vote(
-        pollId,
-        optionId,
-        userId,
-        poll.pollType.id
+      const promises = optionIds.map((id) =>
+        sdk.vote(pollId, id, userId, poll.pollType.id)
       );
 
+      const responses = await Promise.all(promises);
+
       setLoading(false);
-      onSubmitted?.(votedPoll);
+      onSubmitted?.(responses[responses.length - 1]);
 
       if (!withoutFeedback) {
         setVoted(true);
@@ -50,17 +54,13 @@ export const hook = (
   };
 
   const handleAddOption = () => {
-    // Add your logic to add a new option
     if (newOption.trim() !== "") {
       setAddingOption(true);
-      // Assuming there is a method in your SDK to add an option
       sdk
         .addOption(pollId, newOption.trim())
         .then((updatedPoll) => {
-          // Assuming usePoll hook updates the poll details automatically
-          // If not, you might need to refetch the poll using usePoll
           if (updatedPoll) {
-            setNewOption(""); // Clear the input field after adding the option
+            setNewOption("");
           }
         })
         .finally(() => {
@@ -70,22 +70,36 @@ export const hook = (
   };
 
   const handleSelectOption = (optionId: number) => {
-    setSelectedOption(optionId);
+    if (!poll) return;
+
+    switch (poll.pollType.id) {
+      case PollTypes.SingleChoice:
+        setSelectedOptionIds([optionId]);
+        break;
+
+      case PollTypes.MultipleChoice:
+        setSelectedOptionIds((previousIds) =>
+          previousIds.includes(optionId)
+            ? previousIds.filter((id) => id !== optionId)
+            : [...previousIds, optionId]
+        );
+        break;
+      default:
+        break;
+    }
 
     if (!confirmToVote) {
-      handleVote(optionId);
+      handleVote([optionId]);
     }
   };
 
   useEffect(() => {
-    if (initialSelectedOption) {
-      setSelectedOption(initialSelectedOption);
-    }
-  }, [initialSelectedOption]);
+    setSelectedOptionIds(initialSelectedOptionIds);
+  }, [initialSelectedOptionIds]);
 
   return {
     poll,
-    selectedOption,
+    selectedOptionIds,
     handleSelectOption,
     loading,
     voted,

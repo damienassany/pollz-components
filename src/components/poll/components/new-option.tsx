@@ -27,7 +27,7 @@ export const NewOption: React.FC<Props> = ({
       {addingOption ? (
         <ActivityIndicator size={30} />
       ) : (
-        <AddOptionButton onPress={handleAddOption}>
+        <AddOptionButton disabled={!newOption.trim()} onPress={handleAddOption}>
           <Ionicons name="add" size={30} color={theme.colors.primary} />
         </AddOptionButton>
       )}
