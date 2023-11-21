@@ -10450,16 +10450,16 @@ polished@^4.2.2:
     "@babel/runtime" "^7.17.8"
 
 pollz-js@^1.0.1, pollz-js@^1.0.10:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/pollz-js/-/pollz-js-1.0.13.tgz#2a1d5ef2290cc93d97df405f280aa9812d9eb873"
-  integrity sha512-zOsS5MeG7Ke+s9A8W/x8zEDV3qLktT8bap/nvsDJRTmEziw4bIxZjiu06VxsdQsm5nzUhTODQPqvzsRx7rn1qQ==
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/pollz-js/-/pollz-js-1.0.14.tgz#1f9016d7e763229edce41f251247e5d4812742e4"
+  integrity sha512-k9B9q3QXn/ZwL81PcUnSTAvZYmXCAMFUF01CZK8cwBXkdJ+T1KjiKJ92a9LWohIGDlo7jH/We0xsuwRIYwF4lg==
   dependencies:
     socket.io-client "^4.7.1"
 
 pollz-react@^1.0.11:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/pollz-react/-/pollz-react-1.0.12.tgz#28ec4fee9da01d7d1b6124acbba968675c826ca0"
-  integrity sha512-3II02voe9cg6L0ZqSjRIOkeykZkyf0erqr4S7sgMg88tBOlz0F+4BSqj5lAWBfVYQH5IbZ4MfRDBka3EWHTDKA==
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/pollz-react/-/pollz-react-1.0.13.tgz#ee6e6f87b1e1119c6c94412b21b2302d94baa9e5"
+  integrity sha512-lQCUNhnV6dQB8F3EqevEX1QxVXnSeoR3qv7ZCtuM5imzozVGWO/EOOxX0kVOPdGZsNUuVDLwx0wIeJMmoR5LCg==
   dependencies:
     pollz-js "^1.0.1"
     react "^18.2.0"
