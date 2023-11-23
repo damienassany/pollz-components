@@ -49,6 +49,7 @@ try {
 
 const getStories = () => {
   return {
+    "./src/components/create-poll/index.stories.tsx": require("../src/components/create-poll/index.stories.tsx"),
     "./src/components/poll/index.stories.tsx": require("../src/components/poll/index.stories.tsx"),
   };
 };

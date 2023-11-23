@@ -1,8 +1,9 @@
 import React from "react";
+import { View } from "react-native";
 import { ActivityIndicator } from "../../_components/activity-indicator";
+import { NewOption } from "../../_components/new-option";
 import { Footer } from "./components/footer";
 import { Greetings } from "./components/greetings";
-import { NewOption } from "./components/new-option";
 import { OptionRow } from "./components/option-row";
 import { hook } from "./hook";
 import { NoPollWrapper, PollName, Wrapper } from "./styles";
@@ -58,12 +59,14 @@ export const Poll: React.FC<Props> = ({
       ) : (
         <>
           {canAddOptions && (
-            <NewOption
-              newOption={newOption}
-              setNewOption={setNewOption}
-              addingOption={addingOption}
-              handleAddOption={handleAddOption}
-            />
+            <View style={{ marginBottom: 8 }}>
+              <NewOption
+                newOption={newOption}
+                setNewOption={setNewOption}
+                addingOption={addingOption}
+                handleAddOption={handleAddOption}
+              />
+            </View>
           )}
           {poll.options.map((option) => (
             <OptionRow

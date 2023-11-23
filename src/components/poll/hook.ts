@@ -53,19 +53,17 @@ export const hook = (
     }
   };
 
-  const handleAddOption = () => {
+  const handleAddOption = async () => {
     if (newOption.trim() !== "") {
-      setAddingOption(true);
-      sdk
-        .addOption(pollId, newOption.trim())
-        .then((updatedPoll) => {
-          if (updatedPoll) {
-            setNewOption("");
-          }
-        })
-        .finally(() => {
-          setAddingOption(false);
-        });
+      try {
+        setAddingOption(true);
+        await sdk.addOption(pollId, newOption.trim());
+        setNewOption("");
+      } catch (error) {
+        console.error("Error adding option:", error);
+      } finally {
+        setAddingOption(false);
+      }
     }
   };
 

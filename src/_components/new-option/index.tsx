@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { ActivityIndicator } from "../../../_components/activity-indicator";
-import { theme } from "../../../themes/base";
+import { theme } from "../../themes/base";
+import { ActivityIndicator } from "../activity-indicator";
 import { AddOptionButton, AddOptionContainer, AddOptionInput } from "./styles";
 
 type Props = {
@@ -21,6 +21,7 @@ export const NewOption: React.FC<Props> = ({
     <AddOptionContainer>
       <AddOptionInput
         placeholder="Add a new option"
+        placeholderTextColor={"#888"}
         value={newOption}
         onChangeText={(text) => setNewOption(text)}
       />
