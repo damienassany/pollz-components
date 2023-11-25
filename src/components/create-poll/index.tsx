@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
-import { PollTypes } from "pollz-js";
+import { Poll, PollTypes } from "pollz-js";
 import { usePollz } from "pollz-react";
 import { FlatList, Switch } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import { FadeInUp } from "react-native-reanimated";
+import { ActivityIndicator } from "../../_components/activity-indicator";
 import {
+  BorderedInputField,
   CheckboxContainer,
   CheckboxLabel,
   Container,
@@ -12,44 +14,56 @@ import {
   CreateButtonText,
   InputField,
   InputLabel,
+  OptionWrapper,
+  listStyles,
 } from "./styles";
 
-type Props = {};
-
-const listStyles = {
-  borderRadius: 5,
-  borderWidth: 1,
-  borderColor: "#aaa",
+type Props = {
+  onPollCreated?: (poll: Poll) => void;
 };
 
-// TODO: add memoization
-
-export const CreatePoll: React.FC<Props> = () => {
+export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
   const { sdk } = usePollz();
-  const [pollName, setPollName] = useState<string>("");
-  const [options, setOptions] = useState<string[]>(["", ""]); // Initial state with one empty option
-  const [pollTypeId, setPollTypeId] = useState<number>(PollTypes.SingleChoice); // Initial state with one empty option
+  const [pollName, setPollName] = useState("");
+  const [options, setOptions] = useState(["", ""]); // Initial state with one empty option
+  const [pollTypeId, setPollTypeId] = useState(PollTypes.SingleChoice); // Initial state with one empty option
+  const [creatingPoll, setCreatingPoll] = useState(false);
 
-  const addNewOption = () => {
+  const isValid = useMemo(() => {
+    return (
+      pollName.trim() !== "" &&
+      options.filter((option) => option.trim() !== "").length > 1 &&
+      options.every(
+        (option) => options.filter((o) => o === option).length === 1
+      )
+    );
+  }, [options, pollName]);
+
+  const addNewOption = useCallback(() => {
     setOptions((prev) => [...prev, ""]);
-  };
+  }, []);
 
-  const handleOptionChange = (index: number, value: string) => {
+  const handleOptionChange = useCallback((index: number, value: string) => {
     setOptions((options) => {
       const updatedOptions = [...options];
       updatedOptions[index] = value;
       return updatedOptions;
     });
-  };
+  }, []);
 
-  const resetPoll = () => {
+  const resetPoll = useCallback(() => {
     setPollName("");
     setOptions(["", ""]);
     setPollTypeId(PollTypes.SingleChoice);
-  };
+  }, []);
 
-  const handleCreatePoll = async () => {
+  const handleCreatePoll = useCallback(async () => {
+    if (!isValid) {
+      return;
+    }
+
     try {
+      setCreatingPoll(true);
       // Filter out empty options before creating the poll
       const nonEmptyOptions = options.filter((option) => option.trim() !== "");
 
@@ -57,9 +71,7 @@ export const CreatePoll: React.FC<Props> = () => {
         return;
       }
 
-      // TODO: add loading state
-
-      await sdk.create({
+      const poll = await sdk.create({
         name: pollName,
         options: nonEmptyOptions,
         pollTypeId,
@@ -67,39 +79,48 @@ export const CreatePoll: React.FC<Props> = () => {
 
       resetPoll();
 
+      onPollCreated?.(poll);
+
       // Optionally, you can redirect or do something after poll creation
     } catch (error) {
       console.error("Error creating poll:", error);
+    } finally {
+      setCreatingPoll(false);
     }
-  };
+  }, [options, pollName, pollTypeId, resetPoll, sdk, isValid, onPollCreated]);
 
-  const handleRemoveOption = (index: number) => {
-    const updatedOptions = [...options];
-    updatedOptions.splice(index, 1);
-    setOptions(updatedOptions);
-  };
+  const handleRemoveOption = useCallback((index: number) => {
+    setOptions((prevOptions) => {
+      const updatedOptions = [...prevOptions];
+      updatedOptions.splice(index, 1);
 
-  const handleInput = (text: string, index: number): void => {
-    if (text.trim() === "" && options.length > 2) {
-      handleRemoveOption(index);
-      return;
-    }
+      return updatedOptions;
+    });
+  }, []);
 
-    if (
-      text.trim().length > 0 &&
-      options.filter((option) => option.trim() === "").length === 0
-    ) {
-      addNewOption();
-    }
+  const handleInput = useCallback(
+    (text: string, index: number): void => {
+      if (text.trim() === "" && options.length > 2) {
+        handleRemoveOption(index);
+        return;
+      }
 
-    handleOptionChange(index, text);
-  };
+      if (
+        text.trim().length > 0 &&
+        options.filter((option) => option.trim() === "").length === 0
+      ) {
+        addNewOption();
+      }
+
+      handleOptionChange(index, text);
+    },
+    [addNewOption, handleOptionChange, handleRemoveOption, options]
+  );
 
   return (
     <Container>
       <InputLabel>Create a Poll</InputLabel>
-      <InputField
-        style={{ borderColor: "#aaa", borderWidth: 1, borderRadius: 5 }}
+      <BorderedInputField
         placeholderTextColor={"#888"}
         placeholder="Ask your question"
         value={pollName}
@@ -109,7 +130,7 @@ export const CreatePoll: React.FC<Props> = () => {
       <CheckboxContainer>
         <Switch
           // @ts-ignore
-          activeThumbColor={"#ecddfe"}
+          activeThumbColor={"white"}
           thumbColor={"white"}
           trackColor={{ false: "#ecddfe", true: "#8133ca" }}
           value={pollTypeId === PollTypes.MultipleChoice}
@@ -127,30 +148,30 @@ export const CreatePoll: React.FC<Props> = () => {
         contentContainerStyle={listStyles}
         data={options}
         renderItem={({ item, index }) => {
-          // TODO: export styles
           return (
-            <Animated.View
+            <OptionWrapper
+              isError={
+                item.trim() !== "" &&
+                options.filter((option) => option === item).length > 1
+              }
+              isFirst={index === 0}
+              isLast={index === options.length - 1}
               entering={FadeInUp}
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                borderBottomWidth: index < options.length - 1 ? 1 : 0,
-                borderColor: "#aaa",
-              }}
             >
               <InputField
                 placeholderTextColor={"#888"}
-                placeholder={`New option`}
+                placeholder={"New option"}
                 value={item}
                 onChangeText={(text) => handleInput(text, index)}
               />
-            </Animated.View>
+            </OptionWrapper>
           );
         }}
       />
 
-      <CreateButton onPress={handleCreatePoll}>
+      <CreateButton disabled={!isValid} onPress={handleCreatePoll}>
         <CreateButtonText>Confirm</CreateButtonText>
+        {creatingPoll && <ActivityIndicator size={"small"} color={"white"} />}
       </CreateButton>
     </Container>
   );
