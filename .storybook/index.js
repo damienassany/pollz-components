@@ -5,7 +5,7 @@ import "./storybook.requires";
 
 const StorybookUIRoot = getStorybookUI({
   theme: {
-    backgroundColor: "#E9E8DD",
+    backgroundColor: "#FFF4F1",
   },
 });
 
