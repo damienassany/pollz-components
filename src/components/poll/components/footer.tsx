@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator } from "../../../_components/activity-indicator";
+import { ActivityIndicator } from "../../../commons/activity-indicator";
 import { VoteButton, VoteText } from "../styles";
 import { Row } from "./styles";
 

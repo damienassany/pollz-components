@@ -4,7 +4,7 @@ import { Poll, PollTypes } from "pollz-js";
 import { usePollz } from "pollz-react";
 import { FlatList, Switch } from "react-native";
 import { FadeInUp } from "react-native-reanimated";
-import { ActivityIndicator } from "../../_components/activity-indicator";
+import { ActivityIndicator } from "../../commons/activity-indicator";
 import {
   BorderedInputField,
   CheckboxContainer,

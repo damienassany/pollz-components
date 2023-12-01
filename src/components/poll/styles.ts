@@ -1,6 +1,6 @@
 import styled from "@emotion/native";
 import Animated from "react-native-reanimated";
-import { Text, TextSemiBold } from "../../_components/text";
+import { Text, TextSemiBold } from "../../commons/text";
 import { theme } from "../../themes/base";
 
 export const VoteText = styled(Text)`

@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { ActivityIndicator } from "../../_components/activity-indicator";
-import { NewOption } from "../../_components/new-option";
+import { ActivityIndicator } from "../../commons/activity-indicator";
+import { NewOption } from "../../commons/new-option";
 import { Footer } from "./components/footer";
 import { Greetings } from "./components/greetings";
 import { OptionRow } from "./components/option-row";
