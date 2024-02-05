@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Option, PollTypes } from "pollz-js";
+import { usePollz } from "pollz-react";
 import React from "react";
 import { OptionLabel, OptionWrapper, Tick } from "../styles";
 import { Circle } from "./styles";
@@ -17,10 +18,13 @@ export const OptionRow: React.FC<Props> = ({
   handleSelectOption,
   pollTypeId,
 }) => {
+  const { theme: overrideTheme } = usePollz();
+
   return (
     <OptionWrapper>
       <Circle
         active={selectedOptionIds.includes(option.id)}
+        color={overrideTheme?.colors.primary}
         onPress={() => handleSelectOption(option.id)}
       >
         {selectedOptionIds.includes(option.id) && (
@@ -29,7 +33,9 @@ export const OptionRow: React.FC<Props> = ({
               <Ionicons name="checkmark" color={"white"} size={14} />
             ) : null}
 
-            {pollTypeId === PollTypes.SingleChoice ? <Tick /> : null}
+            {[PollTypes.SingleChoice, PollTypes.Scale].includes(pollTypeId) ? (
+              <Tick />
+            ) : null}
           </>
         )}
       </Circle>

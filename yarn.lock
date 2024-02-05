@@ -1318,6 +1318,13 @@
   resolved "https://registry.yarnpkg.com/@emotion/hash/-/hash-0.9.1.tgz#4ffb0055f7ef676ebc3a5a91fb621393294e2f43"
   integrity sha512-gJB6HLm5rYwSLI6PQa+X1t5CFGrv1J1TWG+sOyMCeKz2ojaj6Fnl/rZEspogG+cvqbt4AE/2eIyD2QfLKTBNlQ==
 
+"@emotion/is-prop-valid@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.2.1.tgz#23116cf1ed18bfeac910ec6436561ecb1a3885cc"
+  integrity sha512-61Mf7Ufx4aDxx1xlDeOm8aFFigGHE4z+0sKCa+IHCeZKiyP9RLD0Mmx7m8b9/Cf37f7NAvQOOJAbQQGVr5uERw==
+  dependencies:
+    "@emotion/memoize" "^0.8.1"
+
 "@emotion/memoize@0.7.4":
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
@@ -1387,6 +1394,18 @@
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@emotion/sheet/-/sheet-1.2.2.tgz#d58e788ee27267a14342303e1abb3d508b6d0fec"
   integrity sha512-0QBtGvaqtWi+nx6doRwDdBIzhNdZrXUppvTM4dtZZWEGTXL/XE/yJxLMGlDT1Gt+UHH5IX1n+jkXyytE/av7OA==
+
+"@emotion/styled@^11.11.0":
+  version "11.11.0"
+  resolved "https://registry.yarnpkg.com/@emotion/styled/-/styled-11.11.0.tgz#26b75e1b5a1b7a629d7c0a8b708fbf5a9cdce346"
+  integrity sha512-hM5Nnvu9P3midq5aaXj4I+lnSfNi7Pmd4EWk1fOZ3pxookaQTNew6bp4JaCBYM4HVFZF9g7UjJmsUmC2JlxOng==
+  dependencies:
+    "@babel/runtime" "^7.18.3"
+    "@emotion/babel-plugin" "^11.11.0"
+    "@emotion/is-prop-valid" "^1.2.1"
+    "@emotion/serialize" "^1.1.2"
+    "@emotion/use-insertion-effect-with-fallbacks" "^1.0.1"
+    "@emotion/utils" "^1.2.1"
 
 "@emotion/stylis@0.8.5":
   version "0.8.5"
@@ -1798,6 +1817,11 @@
     chalk "^4.1.0"
     find-up "^5.0.0"
     js-yaml "^4.1.0"
+
+"@fontsource/outfit@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/outfit/-/outfit-5.0.8.tgz#37cd46f05cba461784eb985dc3e051c37df5fe0c"
+  integrity sha512-1VgGeHc7rdxdtr/r4t5rL8tmMKKgf2bOpucYqFuC8rjNKCAS3mlz4MzEj9rrgRAAdn5yqlKtZOTuu+5P7WQvjw==
 
 "@gar/promisify@^1.0.1":
   version "1.1.3"
@@ -4110,6 +4134,15 @@ available-typed-arrays@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.5.tgz#92f95616501069d07d10edb2fc37d3e1c65123b7"
   integrity sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==
+
+axios@^1.6.2:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.7.tgz#7b48c2e27c96f9c68a2f8f31e2ab19f59b06b0a7"
+  integrity sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==
+  dependencies:
+    follow-redirects "^1.15.4"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
@@ -6797,6 +6830,11 @@ follow-redirects@^1.0.0:
   version "1.15.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
   integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
+
+follow-redirects@^1.15.4:
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.5.tgz#54d4d6d062c0fa7d9d17feb008461550e3ba8020"
+  integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
 
 fontfaceobserver@^2.1.0:
   version "2.3.0"
@@ -10449,20 +10487,25 @@ polished@^4.2.2:
   dependencies:
     "@babel/runtime" "^7.17.8"
 
-pollz-js@^1.0.1, pollz-js@^1.0.10:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/pollz-js/-/pollz-js-1.0.14.tgz#1f9016d7e763229edce41f251247e5d4812742e4"
-  integrity sha512-k9B9q3QXn/ZwL81PcUnSTAvZYmXCAMFUF01CZK8cwBXkdJ+T1KjiKJ92a9LWohIGDlo7jH/We0xsuwRIYwF4lg==
+pollz-js@^1.0.20:
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/pollz-js/-/pollz-js-1.0.20.tgz#8cccc43b8ca5b003ed04051a6a1cc2612dc9d5c2"
+  integrity sha512-NBGe7wQZM6cmxw2HjbJTB+bEyIi61p/efFYFgQQL7CwdPSRrU7twNMv8n677ERghBng18w5uWrLJvLZOM9whqQ==
   dependencies:
+    axios "^1.6.2"
     socket.io-client "^4.7.1"
 
-pollz-react@^1.0.11:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/pollz-react/-/pollz-react-1.0.13.tgz#ee6e6f87b1e1119c6c94412b21b2302d94baa9e5"
-  integrity sha512-lQCUNhnV6dQB8F3EqevEX1QxVXnSeoR3qv7ZCtuM5imzozVGWO/EOOxX0kVOPdGZsNUuVDLwx0wIeJMmoR5LCg==
+pollz-react@^1.0.21:
+  version "1.0.21"
+  resolved "https://registry.yarnpkg.com/pollz-react/-/pollz-react-1.0.21.tgz#e1e5aa6b0815ae628dd1801167a7e6c1d97ebe34"
+  integrity sha512-PjMwo9HluU+IXw3+6fzG27IP0QdpI+cCop8ioGHaQXJSz3nvYxoGqH8543IuOdZn+yosPaTfcm1uO6F8dCYmaQ==
   dependencies:
-    pollz-js "^1.0.1"
+    "@emotion/react" "^11.11.1"
+    "@emotion/styled" "^11.11.0"
+    "@fontsource/outfit" "^5.0.8"
+    pollz-js "^1.0.20"
     react "^18.2.0"
+    react-icons "^4.12.0"
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -10840,6 +10883,11 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
+proxy-from-env@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
+  integrity sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
+
 prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
@@ -11030,6 +11078,11 @@ react-error-boundary@^3.1.0:
   integrity sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==
   dependencies:
     "@babel/runtime" "^7.12.5"
+
+react-icons@^4.12.0:
+  version "4.12.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-4.12.0.tgz#54806159a966961bfd5cdb26e492f4dafd6a8d78"
+  integrity sha512-IBaDuHiShdZqmfc/TwHu6+d6k2ltNCf3AszxNmjJc1KUfXdEeRJOKyNvLmAHaarhzGmTSVygNdyu8/opXv2gaw==
 
 react-input-autosize@^3.0.0:
   version "3.0.0"

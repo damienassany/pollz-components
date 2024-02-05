@@ -24,4 +24,14 @@ storyOf("Poll")
       userId="STORYBOOK_USER"
       onSubmitted={action("onSubmitted")}
     />
+  ))
+  .add("Scale", () => (
+    <Poll
+      canAddOptions={boolean("canAddOptions", true)}
+      withoutFeedback={boolean("withoutFeedback", false)}
+      confirmToVote={boolean("confirmToVote", true)}
+      pollId={163}
+      userId="STORYBOOK_USER"
+      onSubmitted={action("onSubmitted")}
+    />
   ));

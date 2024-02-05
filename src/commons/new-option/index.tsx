@@ -1,4 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { usePollz } from "pollz-react";
 import React from "react";
 import { theme } from "../../themes/base";
 import { ActivityIndicator } from "../activity-indicator";
@@ -17,6 +18,8 @@ export const NewOption: React.FC<Props> = ({
   addingOption,
   handleAddOption,
 }) => {
+  const { theme: overrideTheme } = usePollz();
+
   return (
     <AddOptionContainer>
       <AddOptionInput
@@ -29,7 +32,11 @@ export const NewOption: React.FC<Props> = ({
         <ActivityIndicator size={30} />
       ) : (
         <AddOptionButton disabled={!newOption.trim()} onPress={handleAddOption}>
-          <Ionicons name="add" size={30} color={theme.colors.primary} />
+          <Ionicons
+            name="add"
+            size={30}
+            color={overrideTheme?.colors.primary || theme.colors.primary}
+          />
         </AddOptionButton>
       )}
     </AddOptionContainer>

@@ -23,7 +23,7 @@ type Props = {
 };
 
 export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
-  const { sdk } = usePollz();
+  const { sdk, theme } = usePollz();
   const [pollName, setPollName] = useState("");
   const [options, setOptions] = useState(["", ""]); // Initial state with one empty option
   const [pollTypeId, setPollTypeId] = useState(PollTypes.SingleChoice); // Initial state with one empty option
@@ -71,7 +71,7 @@ export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
         return;
       }
 
-      const poll = await sdk.create({
+      const poll = await sdk.polls.create({
         name: pollName,
         options: nonEmptyOptions,
         pollTypeId,
@@ -80,8 +80,6 @@ export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
       resetPoll();
 
       onPollCreated?.(poll);
-
-      // Optionally, you can redirect or do something after poll creation
     } catch (error) {
       console.error("Error creating poll:", error);
     } finally {
@@ -132,7 +130,10 @@ export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
           // @ts-ignore
           activeThumbColor={"white"}
           thumbColor={"white"}
-          trackColor={{ false: "#ecddfe", true: "#8133ca" }}
+          trackColor={{
+            false: "#b9b9b9",
+            true: theme?.colors.primary || "#8133ca",
+          }}
           value={pollTypeId === PollTypes.MultipleChoice}
           onValueChange={(value) =>
             setPollTypeId(
@@ -169,7 +170,11 @@ export const CreatePoll: React.FC<Props> = ({ onPollCreated }) => {
         }}
       />
 
-      <CreateButton disabled={!isValid} onPress={handleCreatePoll}>
+      <CreateButton
+        color={theme?.colors.primary}
+        disabled={!isValid}
+        onPress={handleCreatePoll}
+      >
         <CreateButtonText>Confirm</CreateButtonText>
         {creatingPoll && <ActivityIndicator size={"small"} color={"white"} />}
       </CreateButton>

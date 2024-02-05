@@ -25,8 +25,10 @@ export const InputField = styled.TextInput`
   font-family: Outfit_400Regular;
 `;
 
-export const CreateButton = styled.TouchableOpacity`
-  background-color: ${theme.colors.primary};
+export const CreateButton = styled.TouchableOpacity<{
+  color: string | undefined;
+}>`
+  background-color: ${({ color = theme.colors.primary }) => color};
   padding: 10px;
   border-radius: 5px;
   align-items: center;

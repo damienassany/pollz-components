@@ -7,8 +7,8 @@ export const VoteText = styled(Text)`
   color: white;
   font-size: 16px;
 `;
-export const VoteButton = styled.Pressable`
-  background-color: ${theme.colors.primary};
+export const VoteButton = styled.Pressable<{ color: string | undefined }>`
+  background-color: ${({ color = theme.colors.primary }) => color};
   padding: 10px;
   border-radius: 5px;
   align-items: center;

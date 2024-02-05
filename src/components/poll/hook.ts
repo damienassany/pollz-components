@@ -35,14 +35,15 @@ export const hook = (
     try {
       setLoading(true);
 
-      const promises = optionIds.map((id) =>
-        sdk.vote(pollId, id, userId, poll.pollType.id)
+      const response = await sdk.polls.vote(
+        poll.pollType.id,
+        pollId,
+        optionIds,
+        userId
       );
 
-      const responses = await Promise.all(promises);
-
       setLoading(false);
-      onSubmitted?.(responses[responses.length - 1]);
+      onSubmitted?.(optionIds);
 
       if (!withoutFeedback) {
         setVoted(true);
@@ -57,7 +58,7 @@ export const hook = (
     if (newOption.trim() !== "") {
       try {
         setAddingOption(true);
-        await sdk.addOption(pollId, newOption.trim());
+        await sdk.pollOptions(pollId).addOption(newOption.trim());
         setNewOption("");
       } catch (error) {
         console.error("Error adding option:", error);
@@ -72,22 +73,28 @@ export const hook = (
 
     switch (poll.pollType.id) {
       case PollTypes.SingleChoice:
+      case PollTypes.Scale:
         setSelectedOptionIds([optionId]);
+
+        if (!confirmToVote) {
+          handleVote([optionId]);
+        }
         break;
 
       case PollTypes.MultipleChoice:
-        setSelectedOptionIds((previousIds) =>
-          previousIds.includes(optionId)
+        setSelectedOptionIds((previousIds) => {
+          const newIds = previousIds.includes(optionId)
             ? previousIds.filter((id) => id !== optionId)
-            : [...previousIds, optionId]
-        );
+            : [...previousIds, optionId];
+
+          if (!confirmToVote) {
+            handleVote(newIds);
+          }
+          return newIds;
+        });
         break;
       default:
         break;
-    }
-
-    if (!confirmToVote) {
-      handleVote([optionId]);
     }
   };
 

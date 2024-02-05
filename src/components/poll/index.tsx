@@ -1,10 +1,13 @@
+import { PollTypes } from "pollz-js";
 import React from "react";
 import { View } from "react-native";
 import { ActivityIndicator } from "../../commons/activity-indicator";
 import { NewOption } from "../../commons/new-option";
 import { Footer } from "./components/footer";
 import { Greetings } from "./components/greetings";
+import { OptionButton } from "./components/option-button";
 import { OptionRow } from "./components/option-row";
+import { Row } from "./components/styles";
 import { hook } from "./hook";
 import { NoPollWrapper, PollName, Wrapper } from "./styles";
 
@@ -68,15 +71,31 @@ export const Poll: React.FC<Props> = ({
               />
             </View>
           )}
-          {poll.options.map((option) => (
-            <OptionRow
-              pollTypeId={poll.pollType.id}
-              key={option.id}
-              option={option}
-              selectedOptionIds={selectedOptionIds}
-              handleSelectOption={handleSelectOption}
-            />
-          ))}
+
+          {poll.pollType.id === PollTypes.Scale ? (
+            <Row>
+              {poll.options.map((option) => (
+                <OptionButton
+                  key={option.id}
+                  handleSelectOption={handleSelectOption}
+                  option={option}
+                  selectedOptionIds={selectedOptionIds}
+                />
+              ))}
+            </Row>
+          ) : (
+            <>
+              {poll.options.map((option) => (
+                <OptionRow
+                  pollTypeId={poll.pollType.id}
+                  key={option.id}
+                  option={option}
+                  selectedOptionIds={selectedOptionIds}
+                  handleSelectOption={handleSelectOption}
+                />
+              ))}
+            </>
+          )}
 
           {confirmToVote ? (
             <Footer
